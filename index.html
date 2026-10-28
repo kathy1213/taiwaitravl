@@ -309,3 +309,180 @@
             </div>
             
             <div style="font-weight: 700; font-size: 13px; color: #666; margin-bottom: 6px;">去程 (12/14) ‧ 香港 (HKG) ➔ 台北桃園 (TPE)</div>
+            <div class="flight-info">
+                <div>
+                    <div class="flight-time">12:10 - 13:55</div>
+                    <div class="flight-code">香港快運 UO112</div>
+                </div>
+                <span class="tag tag-plane">直飛</span>
+            </div>
+
+            <div style="font-weight: 700; font-size: 13px; color: #666; margin-top: 15px; margin-bottom: 6px;">回程 (12/19) ‧ 台北桃園 (TPE) ➔ 香港 (HKG)</div>
+            <div class="flight-info">
+                <div>
+                    <div class="flight-time">21:15 - 23:25</div>
+                    <div class="flight-code">香港快運 UO117</div>
+                </div>
+                <span class="tag tag-plane">直飛</span>
+            </div>
+        </div>
+
+        <div class="card" id="itinerary">
+            <div class="section-title">
+                <span>🗓️ 每日行程</span>
+            </div>
+
+            <div class="date-tabs">
+                <button type="button" class="tab-btn active" id="btn-d1" onclick="switchDay(1)">D1 12/14(一)</button>
+                <button type="button" class="tab-btn" id="btn-d2" onclick="switchDay(2)">D2 12/15(二)</button>
+                <button type="button" class="tab-btn" id="btn-d3" onclick="switchDay(3)">D3 12/16(三)</button>
+                <button type="button" class="tab-btn" id="btn-d4" onclick="switchDay(4)">D4 12/17(四)</button>
+                <button type="button" class="tab-btn" id="btn-d5" onclick="switchDay(5)">D5 12/18(五)</button>
+                <button type="button" class="tab-btn" id="btn-d6" onclick="switchDay(6)">D6 12/19(六)</button>
+            </div>
+
+            <div id="timeline-container" class="timeline"></div>
+        </div>
+
+        <div class="card" id="hotel">
+            <div class="section-title">
+                <span>🏨 住宿資訊</span>
+            </div>
+            <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px dashed #EEE;">
+                <span class="tag tag-bus">12/14 - 12/17 (宜蘭 3晚)</span>
+                <div style="font-size: 15px; font-weight: 900; margin-top: 6px;">原本山明水秀行館</div>
+                <div style="font-size: 12px; color: #666; margin-top: 2px;">📍 宜蘭縣礁溪鄉 (房型：溫馨大床房)</div>
+            </div>
+            <div>
+                <span class="tag tag-must">12/17 - 12/19 (台北 2晚)</span>
+                <div style="font-size: 15px; font-weight: 900; margin-top: 6px;">新驛旅店 (台北車站一館)</div>
+                <div style="font-size: 12px; color: #666; margin-top: 2px;">📍 台北市大同區懷寧街7號</div>
+            </div>
+        </div>
+
+        <div class="card" id="todo">
+            <div class="section-title">
+                <span>☑️ 隨身待辦與提醒</span>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="t1" checked>
+                <label for="t1">護照 & 入台證列印件</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="t2" checked>
+                <label for="t2">悠遊卡 / eSIM 領取</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="t3">
+                <label for="t3">4天3夜宜蘭輕便衣物包</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="t4">
+                <label for="t4">溫泉備品：毛巾、泳帽/浴帽、水樽</label>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="t5">
+                <label for="t5">硬幣預備：NT$20 (溫泉Locker用)</label>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 設定出發時間：2026年12月14日 12:10
+        const targetDate = new Date("2026-12-14T12:10:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("countdown").innerText = `${days} 天 ${hours} 小時`;
+            } else {
+                document.getElementById("countdown").innerText = "旅程已經開始囉！🎉";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        const itineraryData = {
+            1: [
+                { time: "13:55", content: "抵達桃園機場 (UO112)", desc: "入境、提行李、領取 eSIM / 悠遊卡", tag: "tag-plane", tagText: "機場" },
+                { time: "15:00", content: "進台北放低大行李", desc: "前往新驛旅店一館寄存大行李，僅帶4日3夜衣物去宜蘭", tag: "tag-must", tagText: "必做" },
+                { time: "14:50 - 15:30", content: "搭乘客運前往礁溪", desc: "完美銜接客運班次直達礁溪", tag: "tag-bus", tagText: "客運" },
+                { time: "17:00 - 18:00", content: "原本山明水秀行館 Check-in", desc: "把握 5-6點 無人 Check-in 窗口前辦理入住", tag: "tag-must", tagText: "住宿" },
+                { time: "18:30", content: "周邊探索與美食", desc: "正常鮮肉小湯包、柯氏蔥油餅、吳記花生捲冰淇淋", tag: "tag-must", tagText: "美食" },
+                { time: "20:00", content: "湯圍溝溫泉公園 (魚咬腳)", desc: "體驗溫泉魚去角質 ($60/人，送紙毛巾)", tag: "tag-bus", tagText: "體驗" },
+                { time: "21:30", content: "礁溪溫泉公園 (森林風呂裸湯)", desc: "Klook買入場券。帶毛巾/浴帽/水樽/NT$20硬幣(Locker)", tag: "tag-must", tagText: "裸湯" }
+            ],
+            2: [
+                { time: "10:00", content: "房內享用晨間溫泉", desc: "輕鬆醒來，在房間內浸溫泉放鬆", tag: "tag-bus", tagText: "溫泉" },
+                { time: "12:00", content: "甕窯雞 礁溪總店", desc: "品嚐招牌柴燒烤雞與在地熱炒美食", tag: "tag-must", tagText: "美食" },
+                { time: "14:30", content: "室內釣蝦體驗", desc: "下午前往釣蝦場體驗現釣現烤樂趣", tag: "tag-bus", tagText: "體驗" },
+                { time: "17:30", content: "空ㄟ農場 (百萬夜景)", desc: "搭免費接駁車上山，俯瞰蘭陽平原夜景享用窯烤披薩", tag: "tag-must", tagText: "必去" },
+                { time: "20:30", content: "夜間泡湯 / 返回民宿", desc: "有時間可再自費泡湯，或返回民宿休息", tag: "tag-bus", tagText: "放鬆" }
+            ],
+            3: [
+                { time: "08:30", content: "宜蘭包車一日遊出發", desc: "動物農場 + 蔥農場 + 清水地熱 + 梅花湖", tag: "tag-must", tagText: "一日遊" },
+                { time: "12:00", content: "清水地熱 & 農場體驗", desc: "煮地熱溫泉蛋、餵食小動物與體驗蔥農場", tag: "tag-bus", tagText: "景點" },
+                { time: "19:00", content: "羅東夜市放低點落車", desc: "一日遊完結，請司機於羅東夜市放下，展開飲食之旅", tag: "tag-must", tagText: "夜市" },
+                { time: "21:30", content: "返回礁溪民宿", desc: "搭乘火車 (已查好時間) 或 Call Uber 返回民宿", tag: "tag-train", tagText: "交通" }
+            ],
+            4: [
+                { time: "09:00 - 11:00", content: "房內最後浸湯", desc: "享受房間溫泉至 Checkout，辦妥退房並寄放行李", tag: "tag-must", tagText: "溫泉" },
+                { time: "11:30", content: "礁溪市區食野 & 買伴手禮", desc: "採買奕順軒等伴手禮，玩夠後回民宿拎行李", tag: "tag-bus", tagText: "購物" },
+                { time: "14:00", content: "搭火車/客運返台北", desc: "取回行李搭乘火車返回台北", tag: "tag-train", tagText: "台鐵" },
+                { time: "15:30", content: "新驛旅店一館 Check-in", desc: "入住台北飯店並取回寄存的大行李", tag: "tag-must", tagText: "住宿" },
+                { time: "17:00", content: "中山赤峰街 & 寧夏夜市", desc: "文青小店巡禮與寧夏夜市美食", tag: "tag-bus", tagText: "夜市" }
+            ],
+            5: [
+                { time: "10:00", content: "西門町動漫巡禮", desc: "Animate 旗艦店、萬年商業大樓、扭蛋店采買", tag: "tag-must", tagText: "二次元" },
+                { time: "15:00", content: "華山1914文創園區", desc: "參觀展覽與逛文創市集", tag: "tag-bus", tagText: "景點" },
+                { time: "18:30", content: "鼎泰豐美食饗宴", desc: "品嚐小籠包與經典炒飯", tag: "tag-must", tagText: "美食" }
+            ],
+            6: [
+                { time: "10:30", content: "台北車站最後採買", desc: "購買鳳梨酥、太陽餅等伴手禮", tag: "tag-must", tagText: "伴手禮" },
+                { time: "17:00", content: "抵達桃園機場 (UO117)", desc: "辦理登機與退稅手續 (21:15 班機起飛)", tag: "tag-plane", tagText: "機場" }
+            ]
+        };
+
+        function switchDay(dayNum) {
+            for (let i = 1; i <= 6; i++) {
+                const btn = document.getElementById('btn-d' + i);
+                if (btn) {
+                    if (i === dayNum) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                }
+            }
+
+            const container = document.getElementById('timeline-container');
+            const events = itineraryData[dayNum] || [];
+            let html = '';
+
+            events.forEach(item => {
+                html += `
+                    <div class="timeline-item">
+                        <div class="timeline-time">${item.time}</div>
+                        <div class="timeline-content">
+                            ${item.content}
+                            <span class="tag ${item.tag}">${item.tagText}</span>
+                        </div>
+                        <div class="timeline-desc">${item.desc}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        window.onload = function() {
+            switchDay(1);
+        };
+    </script>
+</body>
+</html>
