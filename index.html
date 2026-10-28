@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>台灣 6 日旅程手冊 ✈️</title>
+    <!-- 引入 Huninn (粉圓體) 字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-paper: #FFFCF6;
+            --border-dark: #3E3A39;
+            --coral-pink: #F2A497;
+            --sun-yellow: #F6D27A;
+            --water-blue: #A8D3E6;
+            --bamboo-green: #B9DAA5;
+            --text-color: #3E3A39;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-paper);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            padding-top: 60px; /* 為固定選單留空 */
+            padding-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 16px;
+        }
+
+        /* 頂端固定選單 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 55px;
+            background-color: var(--bg-paper);
+            border-bottom: 3px solid var(--border-dark);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:active, .nav-item.active {
+            background-color: var(--sun-yellow);
+            border-color: var(--border-dark);
+        }
+
+        /* 卡片共用樣式 */
+        .card {
+            background: #FFFFFF;
+            border: 3px solid var(--border-dark);
+            border-radius: 24px;
+            box-shadow: 4px 4px 0px var(--border-dark);
+            padding: 20px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 首頁 Hero 區塊 */
+        .hero {
+            text-align: center;
+            background-color: #FFFDF9;
+        }
+
+        .hero h1 {
+            font-size: 24px;
+            margin: 10px 0 5px 0;
+            color: var(--text-color);
+        }
+
+        .hero p {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 15px 0;
+        }
+
+        /* 出發倒數計時 */
+        .countdown-box {
+            background-color: var(--sun-yellow);
+            border: 2px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 10px;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 2px 2px 0px var(--border-dark);
+        }
+
+        /* SVG 插圖與飄浮動畫 */
+        .svg-illustration {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        /* 標題與標籤 */
+        .section-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 2px solid var(--border-dark);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tag-plane { background-color: var(--water-blue); }
+        .tag-train { background-color: var(--bamboo-green); }
+        .tag-bus { background-color: var(--sun-yellow); }
+        .tag-must { background-color: var(--coral-pink); color: #FFF; }
+
+        /* 航班資訊卡片 */
+        .flight-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #FAFAFA;
+            border: 2px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-top: 10px;
+        }
+
+        .flight-time {
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .flight-code {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* 日期切換 Tab */
+        .date-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .date-tabs::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .tab-btn {
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            background-color: #FFFFFF;
+            border: 2px solid var(--border-dark);
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-dark);
+            transition: transform 0.15s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--coral-pink);
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+
+        /* 切換時彈跳動畫 */
+        .bounce-anim {
+            animation: bounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 時間軸行程 */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background-color: var(--border-dark);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--sun-yellow);
+            border: 2px solid var(--border-dark);
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            font-weight: 700;
+            color: #777;
+        }
+
+        .timeline-content {
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .timeline-desc {
+            font-size: 13px;
+            color: #555;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* 清單 Checkbox */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1.5px dashed #DDD;
+        }
+
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+
+        .todo-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--coral-pink);
+            cursor: pointer;
+        }
+
+        .todo-item label {
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* 支援使用者「減少動態效果」設定 */
+        @media (prefers-reduced-motion: reduce) {
+            .svg-illustration, .bounce-anim, .tab-btn {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂端固定選單 -->
+    <nav class="navbar">
+        <a href="#hero" class="nav-item active">首頁</a>
+        <a href="#flight" class="nav-item">航班</a>
+        <a href="#itinerary" class="nav-item">行程</a>
+        <a href="#hotel" class="nav-item">住宿</a>
+        <a href="#todo" class="nav-item">清單</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. 首頁 + 倒數計時 -->
+        <div class="card hero" id="hero">
+            <!-- 繪本風 SVG 手繪插圖（台北101與珍珠奶茶） -->
+            <div class="svg-illustration">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 珍珠奶茶杯 -->
+                    <rect x="20" y="35" width="30" height="45" rx="6" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+                    <rect x="18" y="30" width="34" height="6" rx="3" fill="#FFF" stroke="#3E3A39" stroke-width="3"/>
+                    <!-- 吸管 -->
+                    <path d="M 32 15 L 38 30" stroke="#F2A497" stroke-width="4" stroke-linecap="round"/>
+                    <!-- 珍珠 -->
+                    <circle cx="28" cy="68" r="3" fill="#3E3A39"/>
+                    <circle cx="38" cy="70" r="3" fill="#3E3A39"/>
+                    <circle cx="33" cy="60" r="3" fill="#3E3A39"/>
+                    <!-- 台北 101 風格建築 -->
+                    <rect x="62" y="20" width="16" height="60" rx="3" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
+                    <path d="M 60 30 L 80 30 M 60 42 L 80 42 M 60 54 L 80 54 M 60 66 L 80 66" stroke="#3E3A39" stroke-width="2"/>
+                    <path d="M 70 8 L 70 20" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+                    <!-- 可愛雲朵 -->
+                    <circle cx="85" cy="25" r="6" fill="#FFF" stroke="#3E3A39" stroke-width="2"/>
+                    <circle cx="15" cy="22" r="5" fill="#FFF" stroke="#3E3A39" stroke-width="2"/>
+                </svg>
+            </div>
+            
+            <h1>宜蘭‧台北 6 日漫旅 🇹🇼</h1>
+            <p>溫泉、夜市與二次元探索之旅</p>
+
+            <div class="countdown-box">
+                ⏰ 距離出發還有：<span id="countdown">載入中...</span>
+            </div>
+        </div>
+
+        <!-- 2. 航班資訊 -->
+        <div class="card" id="flight">
+            <div class="section-title">
+                <span>✈️ 航班卡片</span>
+                <span class="tag tag-plane">來回機票</span>
+            </div>
+            
+            <div style="font-weight: 700; font-size: 13px; color: #666; margin-bottom: 6px;">去程 ‧ 香港 (HKG) ➔ 台北桃園 (TPE)</div>
+            <div class="flight-info">
+                <div>
+                    <div class="flight-time">09:20 - 11:05</div>
+                    <div class="flight-code">國泰航空 CX408</div>
+                </div>
+                <span class="tag tag-plane">直飛</span>
+            </div>
+
+            <div style="font-weight: 700; font-size: 13px; color: #666; margin-top: 15px; margin-bottom: 6px;">回程 ‧ 台北桃園 (TPE) ➔ 香港 (HKG)</div>
+            <div class="flight-info">
+                <div>
+                    <div class="flight-time">18:15 - 20:05</div>
+                    <div class="flight-code">國泰航空 CX407</div>
+                </div>
+                <span class="tag tag-plane">直飛</span>
+            </div>
+        </div>
+
+        <!-- 3. 每日行程 (Tab 切換) -->
+        <div class="card" id="itinerary">
+            <div class="section-title">
+                <span>🗓️ 每日行程</span>
+            </div>
+
+            <!-- 日期 Tab 按鈕 -->
+            <div class="date-tabs">
+                <button class="tab-btn active" onclick="switchDay(1)">D1 抵達宜蘭</button>
+                <button class="tab-btn" onclick="switchDay(2)">D2 礁溪溫泉</button>
+                <button class="tab-btn" onclick="switchDay(3)">D3 羅東夜市</button>
+                <button class="tab-btn" onclick="switchDay(4)">D4 前往台北</button>
+                <button class="tab-btn" onclick="switchDay(5)">D5 西門動漫</button>
+                <button class="tab-btn" onclick="switchDay(6)">D6 採買返港</button>
+            </div>
+
+            <!-- 行程內容容器 -->
+            <div id="timeline-container" class="timeline bounce-anim">
+                <!-- 由 JavaScript 動態渲染 -->
+            </div>
+        </div>
+
+        <!-- 4. 住宿資訊 -->
+        <div class="card" id="hotel">
+            <div class="section-title">
+                <span>🏨 住宿資訊</span>
+            </div>
+            <div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px dashed #EEE;">
+                <span class="tag tag-bus">D1 - D4 (宜蘭)</span>
+                <div style="font-size: 15px; font-weight: 900; margin-top: 6px;">礁溪晶泉豐旅 (Wellspring by Silks)</div>
+                <div style="font-size: 12
